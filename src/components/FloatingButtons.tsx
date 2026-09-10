@@ -1,43 +1,48 @@
 "use client";
 
-import { doctor } from "@/data/doctor";
-import { FaPhone, FaWhatsapp } from "react-icons/fa";
+import { Phone, MessageCircle } from "lucide-react";
+import { doctor } from "@/data";
 import { trackEvent } from "@/lib/analytics";
 
-const FloatingButtons = () => {
+interface FloatingButtonsProps {
+  context?: string;
+}
+
+const FloatingButtons = ({ context }: FloatingButtonsProps) => {
   const cleanWhatsapp = doctor.whatsapp.replace(/\D/g, "");
-  const whatsappLink = `https://wa.me/${cleanWhatsapp}`;
-  const phoneLink = `tel:${doctor.phone}`;
+  const message = context
+    ? `Hola, ${doctor.title} ${doctor.name}. Vi su página sobre ${context} y me gustaría agendar una valoración.`
+    : `Hola, ${doctor.title} ${doctor.name}. Vi su página web y me gustaría agendar una cita.`;
+  const whatsappLink = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(message)}`;
 
   const buttonBaseClass =
-    "w-[50px] h-[50px] rounded-full text-white flex justify-center items-center shadow-lg hover:scale-110 transition-transform duration-300 relative z-50";
-  const pulseClass =
-    "absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping -z-10";
+    "group flex h-14 items-center gap-2 overflow-hidden border text-white shadow-[0_8px_20px_-6px_rgba(16,38,52,0.4)] transition-all relative z-50 pl-3 pr-3 hover:pr-5";
 
   return (
-    <div className="fixed right-5 bottom-5 flex flex-col gap-4 z-50">
-      {/* Botón WhatsApp */}
+    <div className="fixed right-5 bottom-5 z-50 hidden flex-col items-end gap-3 md:flex">
       <a
         target="_blank"
         href={whatsappLink}
         rel="noreferrer"
         aria-label="Contactar por WhatsApp"
-        className={`${buttonBaseClass} bg-[#25D366]`}
+        className={`${buttonBaseClass} border-[#1c8f4d] bg-[#25D366]`}
         onClick={() => trackEvent("clic_whatsapp", { source: "floating" })}
       >
-        <span className={`${pulseClass} bg-[#25D366]`}></span>
-        <FaWhatsapp size={28} />
+        <MessageCircle size={22} className="shrink-0" />
+        <span className="clinical-label max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all group-hover:max-w-[120px] group-hover:opacity-100">
+          WhatsApp
+        </span>
       </a>
-
-      {/* Botón Teléfono */}
       <a
-        href={phoneLink}
+        href={`tel:${doctor.phone}`}
         aria-label="Llamar al doctor"
-        className={`${buttonBaseClass} bg-primary text-primary-foreground`}
+        className={`${buttonBaseClass} border-[var(--color-ink-700)] bg-[var(--color-ink-900)]`}
         onClick={() => trackEvent("clic_llamar", { source: "floating" })}
       >
-        <span className={`${pulseClass} bg-primary`}></span>
-        <FaPhone size={20} />
+        <Phone size={18} className="shrink-0" />
+        <span className="clinical-label max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all group-hover:max-w-[80px] group-hover:opacity-100">
+          Llamar
+        </span>
       </a>
     </div>
   );

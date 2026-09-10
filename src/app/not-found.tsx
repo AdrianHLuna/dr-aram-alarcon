@@ -1,17 +1,20 @@
 import Link from "next/link";
-import { FaHeartBroken } from "react-icons/fa";
 
 export default function NotFound() {
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6">
-      <FaHeartBroken className="text-8xl text-slate-200 mb-8" />
-      <h1 className="text-5xl font-black text-slate-900 mb-4">404 - Página no encontrada</h1>
-      <p className="text-xl text-slate-600 mb-8 max-w-lg">
-        Lo sentimos, la página que buscas no existe o fue movida a otra dirección.
+    <main className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 text-center">
+      <h1 className="text-4xl font-bold text-primary">404</h1>
+      <p className="mt-4 text-muted-foreground">
+        No encontramos la página que buscas. Puede que el enlace esté roto o la página se haya movido.
       </p>
-      <Link href="/" className="bg-primary text-white font-bold px-8 py-4 rounded-full hover:bg-primary/90 transition shadow-xl">
-        Regresar al Inicio
-      </Link>
-    </div>
+      <div className="mt-8 flex gap-4">
+        <Link href="/" className="rounded-2xl bg-primary px-6 py-3 text-primary-foreground">
+          Ir al inicio
+        </Link>
+        <Link href="/servicios" className="rounded-2xl border border-border px-6 py-3">
+          Ver servicios
+        </Link>
+      </div>
+    </main>
   );
 }

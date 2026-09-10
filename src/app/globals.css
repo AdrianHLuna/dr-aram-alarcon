@@ -1,56 +1,106 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #102634;
-  --color-primary-dark: #0B1B26;
-  --color-secondary: #1A4174;
-  --color-accent: #4494C5;
-  --color-accent-light: #B1D2E7;
-  --color-[#0F172A]: #0F172A;
-  --color-background: #F8FAFC;
+/*
+ * Dr. Aram Alarcón Valdéz — Traumatología y Ortopedia (Monterrey, N.L.)
+ * Dirección de diseño: "Estructura Clínica" — precisión técnica, no el
+ * mismo lenguaje visual "premium spa" (rounded-3xl + fade suave 0.6s) que
+ * comparten dr-raul-vega, dr-raul-mu-oz-gomez y la versión anterior de este
+ * mismo sitio. Aquí: líneas finas, datos tabulares, esquinas casi rectas,
+ * animaciones cortas y mecánicas (ver --ease-clinical abajo).
+ * Paleta actualizada 2026-09-10 desde la guía de marca oficial y completa
+ * ("PALETA DE COLORES/PALETA DE COLORES ARAM ALARCON_compressed.pdf") que
+ * reemplaza a la extracción parcial anterior de Logo/PALETA DE COLORES.pdf.
+ */
+:root {
+  --color-ink-900: #1e2a37; /* primario oficial — texto y fondos oscuros */
+  --color-ink-800: #002b51; /* secundario oscuro (rampa neutra, 500) */
+  --color-ink-700: #336189; /* secundario medio (rampa neutra, 1000) */
+  --color-ink-600: #336189; /* mismo tono — texto secundario sobre fondo claro */
+  --color-blue-500: #00498a; /* acento profundo (rampa viva, 500) */
+  --color-blue-accent: #3381c7; /* acento — CTAs, líneas activas (rampa viva, 1000) */
+  --color-blue-100: #b4dcf9; /* fondos claros de acento (rampa viva, 1000) */
+  --color-paper: #f7f9fb; /* fondo general, casi blanco (neutro, no forma parte de la guía) */
+  --color-line: #ccd7e2; /* líneas finas / bordes hairline (rampa neutra, 1000) */
+
+  --background: var(--color-paper);
+  --foreground: var(--color-ink-900);
+
+  /* Curva de animación deliberadamente distinta al easeOut suave de 0.6s
+     que usan los otros sitios: corta, casi lineal, sensación de "escaneo". */
+  --ease-clinical: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-clinical: 0.3s;
 }
 
-:root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
+@theme inline {
+  --color-primary: var(--color-ink-900);
+  --color-primary-foreground: var(--color-paper);
+  --color-accent: var(--color-blue-accent);
+  --color-accent-foreground: var(--color-ink-900);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--color-blue-100);
+  --color-muted-foreground: var(--color-ink-600);
+  --color-border: var(--color-line);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
 }
 
 body {
-  background-color: var(--background);
+  background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  scroll-behavior: smooth;
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
 }
 
-/* Custom FadeIn Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Etiquetas de datos clínicos: SIEMPRE monospace, uppercase, tracking amplio —
+   es la firma tipográfica de "Estructura Clínica", distinta de los badges
+   pill de los otros sitios. SIN color fijo a propósito: el color se define
+   en cada uso con una utilidad de Tailwind, para que group-hover:text-*
+   pueda pisarlo (un color fijo aquí ganaba por orden de cascada y dejaba
+   el texto invisible en hover — bug real reportado y corregido). */
+.clinical-label {
+  font-family: var(--font-plex-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.6875rem;
+  font-weight: 500;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.4s ease-out forwards;
+/* Encabezado de sección — más presencia que un h2 genérico: número/línea de
+   acento a la izquierda, tamaño grande. Firma tipográfica de "Estructura
+   Clínica" para que ninguna sección se sienta "plana". */
+.section-heading {
+  position: relative;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--color-blue-accent);
 }
 
-/* Custom Hide Scrollbar */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Reveal tipo "barrido/escaneo": corto y mecánico, no un fade suave largo. */
+@keyframes scan-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.4;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
 }
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.animate-scan-reveal {
+  animation: scan-reveal var(--duration-clinical) var(--ease-clinical) both;
 }
 
-.glass-card-dark {
-  background: rgba(16, 38, 52, 0.92);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(68, 148, 197, 0.25);
-  box-shadow: 0 20px 40px -15px rgba(16, 38, 52, 0.3);
+@keyframes scan-reveal-up {
+  from {
+    clip-path: inset(100% 0 0 0);
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-.glass-card-light {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 20px 40px -15px rgba(16, 38, 52, 0.05);
+.animate-scan-reveal-up {
+  animation: scan-reveal-up var(--duration-clinical) var(--ease-clinical) both;
 }

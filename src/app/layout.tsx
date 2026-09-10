@@ -1,46 +1,38 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata, Viewport } from "next";
+import { doctor } from "@/data";
+import { plexSans, plexMono } from "@/lib/fonts";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StickyBottomNav from "@/components/StickyBottomNav";
 import FloatingButtons from "@/components/FloatingButtons";
-import { doctor } from "@/data/doctor";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: `${doctor.name} | ${doctor.specialty} en Monterrey`,
-  description: `${doctor.name}, traumatólogo y ortopedista con Alta Especialidad en Cadera y Pelvis en Monterrey. Prótesis de cadera y rodilla, artroscopia y urgencias 24/7.`,
-  keywords: [
-    "Dr Aram Alarcon Valdez",
-    "Traumatologo Monterrey",
-    "Cirujano de Cadera Monterrey",
-    "Alta Especialidad Cadera Pelvis Monterrey",
-    "Protesis de Cadera Monterrey",
-    "Protesis de Rodilla Monterrey",
-    "Urgencias Traumatologia Monterrey"
-  ],
-  openGraph: {
-    title: `${doctor.name} | Traumatología y Ortopedia Monterrey`,
-    description: doctor.bio.substring(0, 150) + "...",
-    url: "https://dr-aram-alarcon.com",
-    siteName: doctor.name,
-    locale: "es_MX",
-    type: "website",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://dr-aram-alarcon.com"),
+  title: {
+    default: `${doctor.title} ${doctor.name} — ${doctor.specialistTitle} en ${doctor.city}`,
+    template: `%s | ${doctor.title} ${doctor.name}`,
   },
+  description: `${doctor.title} ${doctor.name}, ${doctor.specialistTitle} con ${doctor.subspecialty} en ${doctor.city}, ${doctor.state}. Prótesis de cadera y rodilla, artroscopia e infiltraciones articulares.`,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#102634",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <body className="antialiased flex flex-col min-h-screen bg-[#F8FAFC] text-[#0F172A]">
+    <html lang="es-MX" className={`${plexSans.variable} ${plexMono.variable}`}>
+      <body className="pb-16 font-sans md:pb-0">
+        <GoogleAnalytics />
         <Header />
-        <main className="flex-grow">
-          {children}
-        </main>
+        {children}
         <Footer />
         <FloatingButtons />
+        <StickyBottomNav />
       </body>
     </html>
   );

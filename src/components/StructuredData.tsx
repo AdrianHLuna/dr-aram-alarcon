@@ -1,5 +1,3 @@
-import React from "react";
-
 interface StructuredDataProps {
   data: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -13,7 +11,10 @@ export default function StructuredData({ data }: StructuredDataProps) {
         <script
           key={index}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          // Escape seguro: evita que un </script> dentro de un dato rompa la página o inyecte código.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+          }}
         />
       ))}
     </>
