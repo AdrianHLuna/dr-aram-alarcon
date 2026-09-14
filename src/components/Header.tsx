@@ -4,6 +4,7 @@ import type { Route } from "next";
 import { MessageCircle } from "lucide-react";
 import { doctor } from "@/data";
 import { formatCredentials } from "@/lib/credentials";
+import MobileMenu from "./MobileMenu";
 
 const navItems: { label: string; href: Route }[] = [
   { label: "Inicio", href: "/" },
@@ -22,7 +23,7 @@ const navItems: { label: string; href: Route }[] = [
  */
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-[var(--color-paper)]/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[var(--color-line)] bg-[var(--color-paper)]/95 backdrop-blur relative">
       <div className="hidden items-center justify-center gap-1 border-b border-[var(--color-line)] bg-[var(--color-ink-900)] px-4 py-2 md:flex">
         {/* Formato exacto "Céd Prof"/"Céd Esp" (mayúsculas/minúsculas tal cual) — NO usar
             .clinical-label aquí porque su text-transform:uppercase lo rompería. */}
@@ -60,6 +61,7 @@ export default function Header() {
           <MessageCircle className="h-4 w-4" aria-hidden="true" />
           WhatsApp
         </a>
+        <MobileMenu items={navItems} />
       </div>
     </header>
   );

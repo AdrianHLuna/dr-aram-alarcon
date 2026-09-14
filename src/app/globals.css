@@ -41,14 +41,31 @@
   --color-muted: var(--color-blue-100);
   --color-muted-foreground: var(--color-ink-600);
   --color-border: var(--color-line);
-  --font-sans: var(--font-plex-sans);
+  --font-sans: var(--font-caviar);
+  --font-heading: var(--font-oxanium);
   --font-mono: var(--font-plex-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-plex-sans), system-ui, sans-serif;
+  font-family: var(--font-caviar), system-ui, sans-serif;
+}
+
+/* Tipografía de marca oficial (guía "PALETA DE COLORES"): TT Supermolot para
+   encabezados — de paga, sin archivos en el repo, sustituida por Oxanium
+   (Google Fonts) como alternativa geométrica/técnica cercana. Ver nota en
+   src/lib/fonts.ts. Todos los h1-h6 la heredan; .font-heading permite
+   aplicarla a elementos que no son encabezados semánticos (p. ej. el nombre
+   del doctor en Header/Footer). */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading {
+  font-family: var(--font-oxanium), system-ui, sans-serif;
 }
 
 /* Etiquetas de datos clínicos: SIEMPRE monospace, uppercase, tracking amplio —

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { doctor } from "@/data";
-import { plexSans, plexMono } from "@/lib/fonts";
+import { caviarDreams, oxanium, plexMono } from "@/lib/fonts";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-MX" className={`${plexSans.variable} ${plexMono.variable}`}>
+    <html lang="es-MX" className={`${caviarDreams.variable} ${oxanium.variable} ${plexMono.variable}`}>
       <body className="pb-16 font-sans md:pb-0">
         <GoogleAnalytics />
         <Header />
